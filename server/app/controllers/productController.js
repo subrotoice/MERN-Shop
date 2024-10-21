@@ -1,4 +1,4 @@
-import Product from "../models/product.model.js";
+import Product from "../models/Product.js";
 
 // Controller has all business logic and it use model to talk with db
 const createProducts = async (req, res) => {
