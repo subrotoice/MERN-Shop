@@ -1,4 +1,4 @@
-const Product = require("../models/product.model.js");
+import Product from "../models/product.model.js";
 
 // Controller has all business logic and it use model to talk with db
 const createProducts = async (req, res) => {
@@ -62,10 +62,11 @@ const deleteProductById = async (req, res) => {
   }
 };
 
-module.exports = {
+// Export all functions
+export {
   createProducts,
   getAllProducts,
   getProductById,
-  deleteProductById,
   updateProductById,
+  deleteProductById,
 };
