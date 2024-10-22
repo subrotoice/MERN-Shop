@@ -1,4 +1,5 @@
 import {
+  Auth,
   createUserWithEmailAndPassword,
   User as FirebaseUser,
   getAuth,
@@ -42,6 +43,7 @@ interface AuthContextType {
   loginWithGoogle: () => Promise<UserCredential>;
   loginWithGithub: () => Promise<UserCredential>;
   logout: () => Promise<void>;
+  auth: Auth;
 }
 
 // 2. Create the AuthContext with an undefined default
@@ -104,6 +106,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginWithGoogle: loginGoogle,
         loginWithGithub: loginGithub,
         logout,
+        auth,
       }}
     >
       {!loading && children}{" "}

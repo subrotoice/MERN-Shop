@@ -2,9 +2,11 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import sendUserDataToBackend from "../services/sendUserDataToBackend";
 
 const Login = () => {
-  const { user, loginWithEmail, loginWithGoogle, loginWithGithub } = useAuth(); // Access the user and login function
+  const { user, loginWithEmail, loginWithGoogle, loginWithGithub, auth } =
+    useAuth(); // Access the user and login function
   const { register, handleSubmit } = useForm();
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,10 +15,16 @@ const Login = () => {
   if (user) return <Navigate to={location.state} />;
 
   const handleLoginWithEmail = async ({ email, password }: FieldValues) => {
-    console.log(email, password);
+    // console.log(email, password);
     try {
-      await loginWithEmail(email, password); // Handle Firebase login
-      navigate(location.state ? location.state : "/"); // Redirect to homepage after successful login
+      const userCredential = await loginWithEmail(email, password); // Handle Firebase login
+      const responseFromExpress = await sendUserDataToBackend(
+        userCredential,
+        auth
+      );
+      // console.log(userCreditinal);
+      console.log(responseFromExpress);
+      // navigate(location.state ? location.state : "/"); // Redirect to homepage after successful login
       toast.success("Login successful!"); // Show success notification
     } catch (error) {
       console.error("Login error:", error);

@@ -1,34 +1,36 @@
+import dotenv from "dotenv";
 import express from "express";
-import mongoose from "mongoose";
-import router from "./routes/product.route.js";
+import connectDB from "./app/config/db.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import cors from "cors";
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
-
-app.use(express.json()); // Json form data body
+app.use(cors());
+// Middleware to parse JSON
+app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Form encoded data as body
 
-const port = 5000;
+// Start the server
+const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send("On Home Page");
 });
 
-app.get("/about", (req, res) => {
-  res.send("On about us page");
-});
-
 // Routes
-app.use("/api/products", router);
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 
-// mongoose connection
-mongoose
-  .connect(
-    "mongodb+srv://subrotodoict:TyViPjXrhTNL4ATi@backenddb.n3zzu.mongodb.net/?retryWrites=true&w=majority&appName=backendDB"
-  )
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
-    });
-    console.log("Database Connected!");
-  })
-  .catch(() => console.log("connection failed"));
+// Connect to MongoDB
+const connectionString = await connectDB();
+console.log(connectionString);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

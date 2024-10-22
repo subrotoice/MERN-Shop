@@ -1,0 +1,10 @@
+// server/config/firebaseConfig.js
+import admin from "firebase-admin";
+// import serviceAccount from "./serviceAccountKey.json"; // Replace with actual path
+import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+export default admin;
