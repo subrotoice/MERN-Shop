@@ -28,7 +28,7 @@ userRoutes.post("/register", verifyToken, registerOrUpdateUser);
 // });
 
 // Route to get all users (admin-only route)
-userRoutes.get("/all", verifyToken, getAllUsers);
-// userRoutes.get("/all", getAllUsers);
+// userRoutes.get("/all", verifyToken, getAllUsers);
+userRoutes.get("/all", getAllUsers);
 
 export default userRoutes;
