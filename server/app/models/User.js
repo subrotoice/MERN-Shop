@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
     type: String, // URL to the user's profile picture
     default: "", // Can be empty by default
   },
+  roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
+  permissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
   createdAt: {
     type: Date,
     default: Date.now, // Automatically set creation time

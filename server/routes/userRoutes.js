@@ -3,6 +3,12 @@ import express from "express";
 import {
   registerOrUpdateUser,
   getAllUsers,
+  createPermission,
+  createRole,
+  deletePermission,
+  deleteRole,
+  assignPermissionsToRole,
+  assignRoleToUser
 } from "../app/controllers/userController.js";
 import verifyToken from "../app/middlewares/verifyToken.js";
 import admin from "../app/config/firebaseConfig.js";
@@ -29,6 +35,13 @@ userRoutes.post("/register", verifyToken, registerOrUpdateUser);
 
 // Route to get all users (admin-only route)
 // userRoutes.get("/all", verifyToken, getAllUsers);
+
 userRoutes.get("/all", getAllUsers);
+userRoutes.post("/permissions", createPermission);
+userRoutes.delete("/permissions/:id", deletePermission);
+userRoutes.post("/roles", createRole);
+userRoutes.delete("/roles/:id", deleteRole);
+userRoutes.put('/roles/:roleId/permissions', assignPermissionsToRole);
+userRoutes.put('/users/:userId/roles', assignRoleToUser);
 
 export default userRoutes;
