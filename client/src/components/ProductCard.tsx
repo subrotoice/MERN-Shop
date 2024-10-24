@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import { Product } from "./ProductsComponent";
-import StarRating from "./StarRating";
+import productDefaultImage from "../assets/default-product-image.jpg";
 
 interface Props {
   product: Product;
 }
 
 const ProductCard = ({
-  product: { _id, title, img_url, price, ratings, student },
+  product: { _id, name, description, imageUrl, price, category, rating, stock },
 }: Props) => {
-  const parsedRating = parseFloat(ratings.split("/")[0]);
+  // const parsedRating = parseFloat(rating.split("/")[0]);
 
   return (
     <div>
@@ -18,13 +18,13 @@ const ProductCard = ({
           <Link to={`/products/${_id}`}>
             <img
               className="mx-auto h-full dark:hidden"
-              src={img_url}
-              alt={title}
+              src={imageUrl || productDefaultImage}
+              alt={name}
             />
             <img
               className="mx-auto hidden w-full dark:block"
-              src={img_url}
-              alt={title}
+              src={imageUrl || productDefaultImage}
+              alt={name}
             />
           </Link>
         </div>
@@ -108,15 +108,11 @@ const ProductCard = ({
             to={`/products/${_id}`}
             className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
           >
-            {title}
+            {name}
           </Link>
           <div className="mt-2 flex items-center gap-2">
-            <StarRating ratings={parsedRating} />
             <p className="text-sm font-medium text-gray-900 dark:text-white">
-              {ratings}
-            </p>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              {student}
+              {rating}
             </p>
           </div>
           <ul className="mt-2 flex items-center gap-4">

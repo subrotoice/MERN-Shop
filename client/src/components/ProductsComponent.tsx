@@ -3,25 +3,33 @@ import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import ProductHeader from "./ProductHeader";
 
-export interface Product {
-  _id: number;
-  title: string;
-  img_url: string;
-  author: string;
-  author_img_url: string;
-  level: string;
-  ratings: string;
-  price: number;
-  student: number;
-  details: string;
+export interface Category {
+  name: string;
+  description: string;
 }
 
-const ProductsComponent = () => {
+export interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  category: Category;
+  rating: number;
+  stock: number;
+  createdAt: string;
+}
+
+const ProductsComponent = ({ categoryId }: { categoryId?: number }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     axios
-      .get<Product[]>("https://express-server-xi-one.vercel.app/api/products")
+      .get<Product[]>(
+        categoryId
+          ? `http://localhost:5000/api/categories/${categoryId}`
+          : "http://localhost:5000/api/products"
+      )
       .then((res) => setProducts(res.data)) // Success or No Error
       .catch((err) => console.log(err.message)); // Fail or Error
   }, []);

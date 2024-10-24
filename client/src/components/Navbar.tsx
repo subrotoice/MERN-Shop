@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import DarkModeToggle from "./DarkModeToggle";
 
@@ -49,13 +49,12 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="shrink-0">
-                <a
-                  href="#"
-                  title=""
-                  className="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500"
+                <NavLink
+                  className="hover:text-primary-700 dark:hover:text-primary-500"
+                  to="/products"
                 >
-                  Best Sellers
-                </a>
+                  Products
+                </NavLink>
               </li>
               <li className="shrink-0">
                 <a
@@ -331,12 +330,12 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <NavLink
                   className="hover:text-primary-700 dark:hover:text-primary-500"
+                  to="/products"
                 >
-                  Best Sellers
-                </a>
+                  Products
+                </NavLink>
               </li>
               <li>
                 <a

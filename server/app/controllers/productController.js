@@ -4,15 +4,19 @@ import Product from "../models/Product.js";
 const createProducts = async (req, res) => {
   try {
     const product = await Product.create(req.body);
-    res.status(201).json(product);
+    const populatedProduct = await product.populate("category").execPopulate();
+    res.status(201).json(populatedProduct);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
+// Get All Products list
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find()
+      .populate("category")
+      .sort({ createdAt: -1 });
     res.status(200).json(products);
   } catch (error) {
     console.log(error);
@@ -25,7 +29,12 @@ const getProductById = async (req, res) => {
   try {
     // const product = await Product.findById(id, "price");
     const product = await Product.findById(id);
-    res.status(200).json(product);
+    // const populatedProduct = await product.populate("category").execPopulate();
+    const populatedProduct = await Product.findById(product._id).populate(
+      "category"
+    );
+    res.status(201).json(populatedProduct);
+    // res.status(200).json(product);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });

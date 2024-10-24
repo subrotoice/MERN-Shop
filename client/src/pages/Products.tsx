@@ -1,10 +1,16 @@
+import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import ProductsComponent from "../components/ProductsComponent";
 
 const Products = () => {
+  const { id } = useParams();
   return (
     <div>
-      <ProductsComponent />
+      {id ? (
+        <ProductsComponent categoryId={parseInt(id)} />
+      ) : (
+        <ProductsComponent />
+      )}
       <Footer />
     </div>
   );

@@ -9,6 +9,7 @@ import PrivateRoutes from "../pages/PrivateRoutes";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
 import ProductDetails from "../pages/ProductDetails";
+import ProductsByCategories from "../pages/ProductsByCategories";
 
 const router = createBrowserRouter([
   { path: "/", errorElement: <NotFound />, element: <Home /> },
@@ -27,12 +28,13 @@ const router = createBrowserRouter([
     element: <PrivateRoutes />,
     children: [
       { path: "/products", element: <Products /> },
+      { path: "/categories/:id", element: <Products /> },
       {
         path: "/products/:id",
         element: <ProductDetails />,
         loader: async ({ params }) => {
           const response = await fetch(
-            `https://express-server-xi-one.vercel.app/api/products/${params.id}`
+            `http://localhost:5000/api/products/${params.id}`
           );
           return await response.json(); // Ensure valid JSON
         },
