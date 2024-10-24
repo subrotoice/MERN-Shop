@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import DarkModeToggle from "./DarkModeToggle";
+import NavLinks from "./NavLinks";
 
 const Navbar = () => {
   const { user, logout } = useAuth(); // Access the user and login function
@@ -39,50 +40,7 @@ const Navbar = () => {
               </a>
             </div>
             <ul className="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
-              <li>
-                <a
-                  href="#"
-                  title=""
-                  className="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500"
-                >
-                  Home
-                </a>
-              </li>
-              <li className="shrink-0">
-                <NavLink
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                  to="/products"
-                >
-                  Products
-                </NavLink>
-              </li>
-              <li className="shrink-0">
-                <a
-                  href="#"
-                  title=""
-                  className="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500"
-                >
-                  Gift Ideas
-                </a>
-              </li>
-              <li className="shrink-0">
-                <a
-                  href="#"
-                  title=""
-                  className="text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500"
-                >
-                  Today's Deals
-                </a>
-              </li>
-              <li className="shrink-0">
-                <a
-                  href="#"
-                  title=""
-                  className="text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500"
-                >
-                  Sell
-                </a>
-              </li>
+              <NavLinks />
             </ul>
           </div>
           <div className="flex items-center lg:space-x-2">
@@ -321,54 +279,7 @@ const Navbar = () => {
             className="bg-gray-50 dark:bg-gray-700 dark:border-gray-600 border border-gray-200 rounded-lg py-3 px-4 mt-4"
           >
             <ul className="text-gray-900 text-sm font-medium dark:text-white space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <NavLink
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                  to="/products"
-                >
-                  Products
-                </NavLink>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                >
-                  Gift Ideas
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                >
-                  Games
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                >
-                  Electronics
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-primary-700 dark:hover:text-primary-500"
-                >
-                  Home &amp; Garden
-                </a>
-              </li>
+              <NavLinks />
             </ul>
           </div>
         )}

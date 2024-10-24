@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Product } from "./ProductsComponent";
 import productDefaultImage from "../assets/default-product-image.jpg";
+import { Product } from "./ProductsComponent";
 
 interface Props {
   product: Product;
@@ -17,12 +17,12 @@ const ProductCard = ({
         <div className="h-56 w-full">
           <Link to={`/products/${_id}`}>
             <img
-              className="mx-auto h-full dark:hidden"
+              className="mx-auto w-full h-full object-cover dark:hidden"
               src={imageUrl || productDefaultImage}
               alt={name}
             />
             <img
-              className="mx-auto hidden w-full dark:block"
+              className="mx-auto hidden w-full h-full object-cover dark:block"
               src={imageUrl || productDefaultImage}
               alt={name}
             />

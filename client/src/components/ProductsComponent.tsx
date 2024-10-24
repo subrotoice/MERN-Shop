@@ -4,8 +4,10 @@ import ProductCard from "./ProductCard";
 import ProductHeader from "./ProductHeader";
 
 export interface Category {
+  _id: number;
   name: string;
   description: string;
+  icon: string;
 }
 
 export interface Product {
@@ -20,7 +22,7 @@ export interface Product {
   createdAt: string;
 }
 
-const ProductsComponent = ({ categoryId }: { categoryId?: number }) => {
+const ProductsComponent = ({ categoryId }: { categoryId?: string }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {

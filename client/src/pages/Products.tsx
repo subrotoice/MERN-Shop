@@ -4,13 +4,10 @@ import ProductsComponent from "../components/ProductsComponent";
 
 const Products = () => {
   const { id } = useParams();
+
   return (
     <div>
-      {id ? (
-        <ProductsComponent categoryId={parseInt(id)} />
-      ) : (
-        <ProductsComponent />
-      )}
+      {id ? <ProductsComponent categoryId={id} /> : <ProductsComponent />}
       <Footer />
     </div>
   );

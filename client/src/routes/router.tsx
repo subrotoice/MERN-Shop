@@ -6,10 +6,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import PrivateRoutes from "../pages/PrivateRoutes";
+import ProductDetails from "../pages/ProductDetails";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
-import ProductDetails from "../pages/ProductDetails";
-import ProductsByCategories from "../pages/ProductsByCategories";
 
 const router = createBrowserRouter([
   { path: "/", errorElement: <NotFound />, element: <Home /> },

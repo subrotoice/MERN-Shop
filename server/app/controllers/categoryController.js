@@ -25,13 +25,13 @@ export const getProductsByCategory = async (req, res) => {
 
 // Create a new category (Admin only)
 export const createCategory = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, icon } = req.body;
   // if (req.user.role !== "admin") {
   //   return res.status(403).json({ message: "Access denied: Admins only" });
   // }
 
   try {
-    const newCategory = new Category({ name, description });
+    const newCategory = new Category({ name, description, icon });
     await newCategory.save();
     res.status(201).json({
       message: "Category created successfully",
@@ -60,7 +60,7 @@ export const getCategoryById = async (req, res) => {
 // Update a category (Admin only)
 export const updateCategory = async (req, res) => {
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { name, description, icon } = req.body;
 
   // Only admins can update categories
   // if (req.user.role !== "admin") {
@@ -70,7 +70,7 @@ export const updateCategory = async (req, res) => {
   try {
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
-      { name, description },
+      { name, description, icon },
       { new: true }
     );
 
