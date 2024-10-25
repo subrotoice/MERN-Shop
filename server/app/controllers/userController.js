@@ -54,13 +54,13 @@ export const createPermission = async (req, res) => {
   const permission = new Permission({ name });
   await permission.save();
   res.status(201).json(permission);
-}
+};
 
 //delete permission
 export const deletePermission = async (req, res) => {
   await Permission.findByIdAndDelete(req.params.id);
-  res.status(200).json({ message: 'Permission deleted' });
-}
+  res.status(200).json({ message: "Permission deleted" });
+};
 
 //create role
 export const createRole = async (req, res) => {
@@ -68,13 +68,13 @@ export const createRole = async (req, res) => {
   const role = new Role({ name, permissions });
   await role.save();
   res.status(201).json(role);
-}
+};
 
 //delete role
 export const deleteRole = async (req, res) => {
   await Role.findByIdAndDelete(req.params.id);
-  res.status(200).json({ message: 'Role deleted' });
-}
+  res.status(200).json({ message: "Role deleted" });
+};
 
 // Assign permission to role
 export const assignPermissionsToRole = async (req, res) => {
@@ -85,7 +85,7 @@ export const assignPermissionsToRole = async (req, res) => {
   }
   await role.save();
   res.status(200).json(role);
-}
+};
 
 // Assign role to user
 export const assignRoleToUser = async (req, res) => {
@@ -96,7 +96,7 @@ export const assignRoleToUser = async (req, res) => {
   }
   await user.save();
   res.status(200).json(user);
-}
+};
 
 // check permission method, this will be used in routes
 
@@ -112,22 +112,27 @@ const checkPermission = (permissionName) => {
   return async (req, res, next) => {
     const user = await User.findById(req.user._id)
       .populate({
-        path: 'roles',
+        path: "roles",
         populate: {
-          path: 'permissions',
-          model: 'Permission',
+          path: "permissions",
+          model: "Permission",
         },
       })
-      .populate('permissions'); // Populate user-specific permissions
+      .populate("permissions"); // Populate user-specific permissions
 
     // Check if the user has the required permission either from their roles or direct permissions
-    const hasPermission = user.permissions.some(permission => permission.name === permissionName) ||
-      user.roles.some(role =>
-        role.permissions.some(permission => permission.name === permissionName)
+    const hasPermission =
+      user.permissions.some(
+        (permission) => permission.name === permissionName
+      ) ||
+      user.roles.some((role) =>
+        role.permissions.some(
+          (permission) => permission.name === permissionName
+        )
       );
 
     if (!hasPermission) {
-      return res.status(403).json({ message: 'Access Denied' });
+      return res.status(403).json({ message: "Access Denied" });
     }
 
     next();

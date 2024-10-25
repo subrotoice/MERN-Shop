@@ -4,4 +4,6 @@ const permissionSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
 });
 
-module.exports = mongoose.model('Permission', permissionSchema);
+const Permission = mongoose.model("Permission", permissionSchema);
+
+export default Permission;
