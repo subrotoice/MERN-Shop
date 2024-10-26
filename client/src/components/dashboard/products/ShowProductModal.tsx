@@ -1,6 +1,6 @@
 import React from "react";
-import { Product } from "../ProductsComponent";
-import defaultImage from "../../assets/default-product-image.jpg";
+import defaultImage from "../../../assets/default-product-image.jpg";
+import { Product } from "../../ProductsComponent";
 
 interface ShowProductModalProps {
   product: Product | null;
@@ -30,6 +30,9 @@ const ShowProductModal: React.FC<ShowProductModalProps> = ({
         </p>
         <p>
           <strong>Description:</strong> {product.description}
+        </p>
+        <p>
+          <strong>Price:</strong> {product.price}
         </p>
         <p>
           <strong>Rating:</strong> {product.rating}

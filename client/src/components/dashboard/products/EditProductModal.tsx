@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "../../components/ProductsComponent";
+import { Product } from "../../ProductsComponent";
 
 interface EditProductModalProps {
   isOpen: boolean;
@@ -47,6 +47,20 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
               )
             }
             className="textarea textarea-bordered"
+          />
+        </div>
+
+        <div className="form-control mb-4">
+          <label className="label">Price</label>
+          <input
+            type="number"
+            value={product.price}
+            onChange={(e) =>
+              setProduct((prev) =>
+                prev ? { ...prev, price: Number(e.target.value) } : null
+              )
+            }
+            className="input input-bordered"
           />
         </div>
 

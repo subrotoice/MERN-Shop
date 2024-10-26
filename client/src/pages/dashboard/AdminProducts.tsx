@@ -6,9 +6,11 @@ import useProducts from "../../hooks/useProducts";
 import defaultImage from "../../assets/default-product-image.jpg";
 import axios from "axios";
 import { Product } from "../../components/ProductsComponent";
-import EditProductModal from "../../components/dashboard/EditProductModal";
-import ShowProductModal from "../../components/dashboard/ShowProductModal";
-import CreateProductModal from "../../components/dashboard/CreateProductModal"; // Import the create modal
+import EditProductModal from "../../components/dashboard/products/EditProductModal";
+
+import CreateProductModal from "../../components/dashboard/products/CreateProductModal"; // Import the create modal
+import toast from "react-hot-toast";
+import ShowProductModal from "../../components/dashboard/products/ShowProductModal";
 
 const AdminProducts: React.FC = () => {
   const fetchedProducts = useProducts();
@@ -45,6 +47,7 @@ const AdminProducts: React.FC = () => {
           selectedProduct
         );
         setIsModalOpen(false);
+        toast.success("Product Updated");
       } catch (error) {
         console.error("Error updating product:", error);
       }
@@ -84,6 +87,7 @@ const AdminProducts: React.FC = () => {
   };
 
   const handleProductCreated = (newProduct: Product) => {
+    toast.success("Product Creted");
     setProducts([newProduct, ...products]);
   };
 
