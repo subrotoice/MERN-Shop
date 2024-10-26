@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ProductCard = ({
-  product: { _id, name, description, imageUrl, price, category, rating, stock },
+  product: { _id, name, imageUrl, price, rating },
 }: Props) => {
   // const parsedRating = parseFloat(rating.split("/")[0]);
 

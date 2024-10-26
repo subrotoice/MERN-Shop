@@ -1,9 +1,15 @@
 import { IconType } from "react-icons";
 
-const IconComponent = ({ Icon }: { Icon: IconType }) => {
+const IconComponent = ({
+  Icon,
+  className,
+}: {
+  Icon: IconType;
+  className: string;
+}) => {
   return (
     <div>
-      <Icon className="my-8 text-6xl" />
+      <Icon className={className} />
     </div>
   );
 };
