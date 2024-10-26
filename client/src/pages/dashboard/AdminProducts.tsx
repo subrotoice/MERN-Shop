@@ -1,5 +1,4 @@
-// AdminProducts.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa6";
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteForever } from "react-icons/md";
@@ -8,11 +7,18 @@ import defaultImage from "../../assets/default-product-image.jpg";
 import axios from "axios";
 import { Product } from "../../components/ProductsComponent";
 import EditProductModal from "../../components/dashboard/EditProductModal";
+import ShowProductModal from "../../components/dashboard/ShowProductModal"; // Import the new modal
 
 const AdminProducts: React.FC = () => {
-  const products = useProducts();
+  const fetchedProducts = useProducts();
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isShowModalOpen, setIsShowModalOpen] = useState(false); // State for view modal
+
+  useEffect(() => {
+    setProducts(fetchedProducts);
+  }, [fetchedProducts]);
 
   const handleEditClick = (product: Product) => {
     setSelectedProduct(product);
@@ -26,16 +32,46 @@ const AdminProducts: React.FC = () => {
 
   const handleUpdate = async () => {
     if (selectedProduct) {
+      setProducts((prevProducts) =>
+        prevProducts.map((prod) =>
+          prod._id === selectedProduct._id ? selectedProduct : prod
+        )
+      );
       try {
         await axios.put(
           `http://localhost:5000/api/products/${selectedProduct._id}`,
           selectedProduct
         );
-        setIsModalOpen(false); // Close modal after update
+        setIsModalOpen(false);
       } catch (error) {
         console.error("Error updating product:", error);
       }
     }
+  };
+
+  const handleDelete = async (product: Product) => {
+    const isConfirm = confirm(`Are you sure to delete ${product.name}?`);
+    if (isConfirm) {
+      setProducts((prevProducts) =>
+        prevProducts.filter((prod) => prod._id !== product._id)
+      );
+      try {
+        await axios.delete(`http://localhost:5000/api/products/${product._id}`);
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    }
+  };
+
+  // Handle View Product click
+  const handleViewClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsShowModalOpen(true);
+  };
+
+  const handleShowModalClose = () => {
+    setSelectedProduct(null);
+    setIsShowModalOpen(false);
   };
 
   return (
@@ -87,13 +123,13 @@ const AdminProducts: React.FC = () => {
                 </td>
                 <td>
                   <div className="flex gap-2">
-                    <button>
+                    <button onClick={() => handleViewClick(product)}>
                       <FaEye className="h-6 w-6" />
                     </button>
                     <button onClick={() => handleEditClick(product)}>
                       <LuPencilLine className="h-6 w-6" />
                     </button>
-                    <button>
+                    <button onClick={() => handleDelete(product)}>
                       <MdDeleteForever className="h-6 w-6" />
                     </button>
                   </div>
@@ -111,6 +147,14 @@ const AdminProducts: React.FC = () => {
           product={selectedProduct}
           setProduct={setSelectedProduct}
           onUpdate={handleUpdate}
+        />
+      )}
+
+      {isShowModalOpen && selectedProduct && (
+        <ShowProductModal
+          isOpen={isShowModalOpen}
+          onClose={handleShowModalClose}
+          product={selectedProduct}
         />
       )}
     </div>

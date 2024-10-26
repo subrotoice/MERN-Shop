@@ -1,4 +1,3 @@
-// EditProductModal.tsx
 import React from "react";
 import { Product } from "../../components/ProductsComponent";
 
