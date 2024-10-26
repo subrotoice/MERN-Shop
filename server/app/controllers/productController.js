@@ -4,8 +4,8 @@ import Product from "../models/Product.js";
 const createProducts = async (req, res) => {
   try {
     const product = await Product.create(req.body);
-    const populatedProduct = await product.populate("category").execPopulate();
-    res.status(201).json(populatedProduct);
+    const populatedProduct = await product.populate("category");
+    res.status(201).json(product);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
