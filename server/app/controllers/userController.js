@@ -41,61 +41,61 @@ export const getAllUsers = async (req, res) => {
   // }
 
   try {
-    const users = await User.find();
+    const users = await User.find().populate('roles');
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
   }
 };
 
-// create permission
-export const createPermission = async (req, res) => {
-  const { name } = req.body;
-  const permission = new Permission({ name });
-  await permission.save();
-  res.status(201).json(permission);
+// get all roles
+export const getRoles = async (req, res) => {
+
+  try {
+    const roles = await Role.find();
+    res.status(200).json(roles);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching roles", error });
+  }
 };
 
-//delete permission
-export const deletePermission = async (req, res) => {
-  await Permission.findByIdAndDelete(req.params.id);
-  res.status(200).json({ message: "Permission deleted" });
-};
 
 //create role
 export const createRole = async (req, res) => {
-  const { name, permissions } = req.body;
-  const role = new Role({ name, permissions });
-  await role.save();
-  res.status(201).json(role);
+  try {
+    const { name, permissions } = req.body;
+    const role = new Role({ name, permissions });
+    await role.save();
+    res.status(201).json(role);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating role", error });
+  }
 };
 
 //delete role
 export const deleteRole = async (req, res) => {
-  await Role.findByIdAndDelete(req.params.id);
-  res.status(200).json({ message: "Role deleted" });
-};
-
-// Assign permission to role
-export const assignPermissionsToRole = async (req, res) => {
-  const { permissionId } = req.body;
-  const role = await Role.findById(req.params.roleId);
-  if (!role.permissions.includes(permissionId)) {
-    role.permissions.push(permissionId);
+  try {
+    await Role.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Role deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Error delete user", error });
   }
-  await role.save();
-  res.status(200).json(role);
 };
 
 // Assign role to user
 export const assignRoleToUser = async (req, res) => {
-  const { roleId } = req.body;
-  const user = await User.findById(req.params.userId);
-  if (!user.roles.includes(roleId)) {
-    user.roles.push(roleId);
+  try {
+    const { roleId } = req.body;
+    const user = await User.findById(req.params.userId);
+    if (!user.roles.includes(roleId)) {
+      user.roles.push(roleId);
+    }
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error assigning roles", error });
   }
-  await user.save();
-  res.status(200).json(user);
+  
 };
 
 // check permission method, this will be used in routes

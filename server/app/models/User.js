@@ -22,17 +22,11 @@ const userSchema = new mongoose.Schema({
   address: {
     type: String, // Optional field for user's address
   },
-  role: {
-    type: String,
-    enum: ["user", "admin"], // Possible values: 'user' (default) or 'admin'
-    default: "user",
-  },
   profilePic: {
     type: String, // URL to the user's profile picture
     default: "", // Can be empty by default
   },
   roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
-  permissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
   createdAt: {
     type: Date,
     default: Date.now, // Automatically set creation time

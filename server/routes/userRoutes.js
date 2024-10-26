@@ -3,11 +3,9 @@ import express from "express";
 import {
   registerOrUpdateUser,
   getAllUsers,
-  createPermission,
+  getRoles,
   createRole,
-  deletePermission,
   deleteRole,
-  assignPermissionsToRole,
   assignRoleToUser
 } from "../app/controllers/userController.js";
 import verifyToken from "../app/middlewares/verifyToken.js";
@@ -37,11 +35,9 @@ userRoutes.post("/register", verifyToken, registerOrUpdateUser);
 // userRoutes.get("/all", verifyToken, getAllUsers);
 
 userRoutes.get("/all", getAllUsers);
-userRoutes.post("/permissions", createPermission);
-userRoutes.delete("/permissions/:id", deletePermission);
+userRoutes.get("/roles", getRoles);
 userRoutes.post("/roles", createRole);
 userRoutes.delete("/roles/:id", deleteRole);
-userRoutes.put('/roles/:roleId/permissions', assignPermissionsToRole);
 userRoutes.put('/users/:userId/roles', assignRoleToUser);
 
 export default userRoutes;
