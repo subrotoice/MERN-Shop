@@ -9,12 +9,12 @@ import PrivateRoutes from "../pages/PrivateRoutes";
 import ProductDetails from "../pages/ProductDetails";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
+import AdminCategories from "../pages/dashboard/AdminCategories";
 import AdminPage from "../pages/dashboard/AdminPage";
-import DashboardWelcome from "../pages/dashboard/DashboardWelcome";
-import Users from "../pages/dashboard/Users";
-import Roles from "../pages/dashboard/Roles";
-import Categories from "../pages/dashboard/Categories";
 import AdminProducts from "../pages/dashboard/AdminProducts";
+import DashboardWelcome from "../pages/dashboard/DashboardWelcome";
+import Roles from "../pages/dashboard/Roles";
+import Users from "../pages/dashboard/Users";
 
 const router = createBrowserRouter([
   { path: "/", errorElement: <NotFound />, element: <Home /> },
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
       { path: "welcome", element: <DashboardWelcome /> },
       { path: "users", element: <Users /> },
       { path: "products", element: <AdminProducts /> },
-      { path: "categories", element: <Categories /> },
+      { path: "categories", element: <AdminCategories /> },
       { path: "roles", element: <Roles /> },
     ],
   },

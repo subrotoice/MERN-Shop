@@ -45,7 +45,10 @@ const ProductCategories = () => {
                 to={`/categories/${category._id}`}
                 className="flex flex-col items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
-                <IconComponent Icon={iconMap[category.icon]} />
+                <IconComponent
+                  Icon={iconMap[category.icon]}
+                  className="text-6xl my-8"
+                />
                 <span className="font-medium text-gray-900 dark:text-white pb-4 text-2xl">
                   {category.name}
                 </span>

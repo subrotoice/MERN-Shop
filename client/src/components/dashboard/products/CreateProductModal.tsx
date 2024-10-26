@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Product } from "../../components/ProductsComponent";
-import useCategories from "../../hooks/useCategories";
+import { Product } from "../../ProductsComponent";
+import useCategories from "../../../hooks/useCategories";
 
 interface CreateProductModalProps {
   isOpen: boolean;
@@ -19,6 +19,7 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
   const [newProduct, setNewProduct] = useState<{
     name: string;
     description: string;
+    price: number;
     stock: number;
     rating: number;
     imageUrl: string;
@@ -26,6 +27,7 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
   }>({
     name: "",
     description: "",
+    price: 0,
     stock: 0,
     rating: 0,
     imageUrl: "",
@@ -81,6 +83,17 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
             value={newProduct.description}
             onChange={handleInputChange}
             className="textarea textarea-bordered"
+          />
+        </div>
+
+        <div className="form-control mb-4">
+          <label className="label">Price</label>
+          <input
+            type="number"
+            name="price"
+            value={newProduct.price}
+            onChange={handleInputChange}
+            className="input input-bordered"
           />
         </div>
 
