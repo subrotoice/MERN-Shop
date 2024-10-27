@@ -31,7 +31,7 @@ const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
   const handleCreate = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/orders",
+        "https://mernshopdev.vercel.app/api/orders",
         newOrder
       );
       onOrderCreated(response.data);

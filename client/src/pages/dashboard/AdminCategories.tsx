@@ -43,7 +43,7 @@ const AdminCategories: React.FC = () => {
       );
       try {
         await axios.put(
-          `http://localhost:5000/api/categories/${updatedCategory._id}`,
+          `https://mernshopdev.vercel.app/api/categories/${updatedCategory._id}`,
           updatedCategory
         );
         setIsModalOpen(false);
@@ -69,7 +69,7 @@ const AdminCategories: React.FC = () => {
       });
       try {
         await axios.delete(
-          `http://localhost:5000/api/categories/${category._id}`
+          `https://mernshopdev.vercel.app/api/categories/${category._id}`
         );
       } catch (error) {
         console.error("Error deleting category:", error);

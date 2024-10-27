@@ -12,7 +12,7 @@ export const sendUserDataToBackend = async (
 
     // Send the request to the backend with the token in headers
     const response = await axios.post(
-      "http://localhost:5000/api/users/register", // Backend route
+      "https://mernshopdev.vercel.app/api/users/register", // Backend route
       userData.user, // User data (name, email, etc.)
       {
         headers: {

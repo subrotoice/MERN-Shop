@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         element: <ProductDetails />,
         loader: async ({ params }) => {
           const response = await fetch(
-            `http://localhost:5000/api/products/${params.id}`
+            `https://mernshopdev.vercel.app/api/products/${params.id}`
           );
           return await response.json(); // Ensure valid JSON
         },

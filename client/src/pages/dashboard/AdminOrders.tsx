@@ -41,7 +41,7 @@ const AdminOrders: React.FC = () => {
       );
       try {
         await axios.put(
-          `http://localhost:5000/api/orders/${selectedOrder._id}`,
+          `https://mernshopdev.vercel.app/api/orders/${selectedOrder._id}`,
           selectedOrder
         );
         setIsModalOpen(false);
@@ -59,7 +59,9 @@ const AdminOrders: React.FC = () => {
         prevOrders.filter((ord) => ord._id !== order._id)
       );
       try {
-        await axios.delete(`http://localhost:5000/api/orders/${order._id}`);
+        await axios.delete(
+          `https://mernshopdev.vercel.app/api/orders/${order._id}`
+        );
       } catch (error) {
         console.error("Error deleting order:", error);
       }

@@ -28,7 +28,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   const handleCreate = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/categories",
+        "https://mernshopdev.vercel.app/api/categories",
         newCategory
       );
       onCategoryCreated(response.data.category);

@@ -8,7 +8,7 @@ const useCategories = () => {
   // for first time data loda using useEffect
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/categories")
+      .get("https://mernshopdev.vercel.app/api/categories")
       .then((res) => setCategories(res.data))
       .catch((err) => console.log(err));
   }, []);

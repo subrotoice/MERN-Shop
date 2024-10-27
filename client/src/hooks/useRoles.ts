@@ -6,7 +6,7 @@ const useRoles = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/users/roles")
+      .get("https://mernshopdev.vercel.app/api/users/roles")
       .then((res) => setRoles(res.data))
       .catch((err) => console.log(err));
   }, []);

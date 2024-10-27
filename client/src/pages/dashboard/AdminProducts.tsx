@@ -43,7 +43,7 @@ const AdminProducts: React.FC = () => {
       );
       try {
         await axios.put(
-          `http://localhost:5000/api/products/${selectedProduct._id}`,
+          `https://mernshopdev.vercel.app/api/products/${selectedProduct._id}`,
           selectedProduct
         );
         setIsModalOpen(false);
@@ -61,7 +61,9 @@ const AdminProducts: React.FC = () => {
         prevProducts.filter((prod) => prod._id !== product._id)
       );
       try {
-        await axios.delete(`http://localhost:5000/api/products/${product._id}`);
+        await axios.delete(
+          `https://mernshopdev.vercel.app/api/products/${product._id}`
+        );
       } catch (error) {
         console.error("Error deleting product:", error);
       }

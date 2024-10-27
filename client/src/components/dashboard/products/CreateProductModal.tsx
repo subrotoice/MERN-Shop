@@ -48,7 +48,7 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
   const handleCreate = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/products",
+        "https://mernshopdev.vercel.app/api/products",
         newProduct
       );
       onProductCreated(response.data);

@@ -29,8 +29,8 @@ const ProductsComponent = ({ categoryId }: { categoryId?: string }) => {
     axios
       .get<Product[]>(
         categoryId
-          ? `http://localhost:5000/api/categories/${categoryId}`
-          : "http://localhost:5000/api/products"
+          ? `https://mernshopdev.vercel.app/api/categories/${categoryId}`
+          : "https://mernshopdev.vercel.app/api/products"
       )
       .then((res) => setProducts(res.data)) // Success or No Error
       .catch((err) => console.log(err.message)); // Fail or Error

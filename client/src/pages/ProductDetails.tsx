@@ -1,17 +1,19 @@
+import axios from "axios";
+import { useState } from "react";
 import { BiLocationPlus } from "react-icons/bi";
 import { FaHeartCircleCheck } from "react-icons/fa6";
 import { useLoaderData } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import productDefaultImage from "../assets/default-product-image.jpg";
 import { Product } from "../components/ProductsComponent";
-import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
-  const { _id, name, description, imageUrl, category, price, rating } =
+  const { _id, name, description, imageUrl, price, rating } =
     useLoaderData() as Product;
-  const { user } = useAuth(); // Firebase user info
-
+  const { user } = useAuth();
+  // console.log(user);
   const [shippingAddress, setShippingAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isOrderModalOpen, setOrderModalOpen] = useState(false);
@@ -24,7 +26,7 @@ const ProductDetails = () => {
 
     try {
       const orderData = {
-        user: user.uid, // Firebase UID
+        user: user.uid,
         products: [{ product: _id, quantity: 1 }],
         shippingAddress,
         phoneNumber,
@@ -32,15 +34,20 @@ const ProductDetails = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/orders",
+        "https://mernshopdev.vercel.app/api/orders",
         orderData
       );
       console.log("Order created:", response.data);
-      setOrderModalOpen(false); // Close modal after order creation
+      setOrderModalOpen(false);
+      toast.success("Order Placed Successfully", {
+        duration: 3000,
+        position: "top-right",
+      });
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
+
   return (
     <div>
       <section className="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
@@ -84,40 +91,38 @@ const ProductDetails = () => {
                 </p>
               </div>
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                <a
-                  href="#"
-                  className="flex gap-2 items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  role="button"
+                <button
+                  className="flex gap-2 items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600"
+                  onClick={() => setOrderModalOpen(true)}
                 >
                   <FaHeartCircleCheck className="h-6 w-6 text-red-400" />
                   Add to favorites
-                </a>
-                <a
-                  href="#"
-                  className="text-white mt-4 sm:mt-0 gap-2 bg-blue-600 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
-                  role="button"
+                </button>
+                <button
+                  className="text-white mt-4 sm:mt-0 gap-2 bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600"
+                  onClick={() => setOrderModalOpen(true)}
                 >
                   Buy Now
-                </a>
+                </button>
               </div>
               <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
               <p className="mb-6 text-gray-500 dark:text-gray-400">
                 {description}
               </p>
-              <p className="text-gray-500 dark:text-gray-400">{description}</p>
             </div>
           </div>
         </div>
       </section>
+
       {isOrderModalOpen && (
-        <dialog open className="modal modal-open">
-          <div className="modal-box">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-lg font-bold">Complete Your Order</h3>
             <p>
-              <strong>Product:</strong> {product.name}
+              <strong>Product:</strong> {name}
             </p>
             <p>
-              <strong>User:</strong> {user.displayName}
+              <strong>User:</strong> {user?.displayName}
             </p>
 
             <div className="form-control mb-4">
@@ -142,7 +147,7 @@ const ProductDetails = () => {
               />
             </div>
 
-            <div className="modal-action">
+            <div className="modal-action flex justify-end gap-2">
               <button onClick={handleOrder} className="btn btn-primary">
                 Submit Order
               </button>
@@ -151,8 +156,8 @@ const ProductDetails = () => {
               </button>
             </div>
           </div>
-        </dialog>
-      )}{" "}
+        </div>
+      )}
     </div>
   );
 };

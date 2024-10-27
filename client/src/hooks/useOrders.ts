@@ -24,7 +24,7 @@ const useOrders = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/orders")
+      .get("https://mernshopdev.vercel.app/api/orders")
       .then((res) => setOrders(res.data))
       .catch((err) => console.log(err));
   }, []);
