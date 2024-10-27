@@ -6,7 +6,11 @@ import {
   getRoles,
   createRole,
   deleteRole,
-  assignRoleToUser
+  assignRoleToUser,
+  detachRoleFromUser,
+  editUser,
+  deleteUser,
+  getUserByFirebaseUid
 } from "../app/controllers/userController.js";
 import verifyToken from "../app/middlewares/verifyToken.js";
 import admin from "../app/config/firebaseConfig.js";
@@ -39,5 +43,9 @@ userRoutes.get("/roles", getRoles);
 userRoutes.post("/roles", createRole);
 userRoutes.delete("/roles/:id", deleteRole);
 userRoutes.put('/:userId/roles', assignRoleToUser);
+userRoutes.put('/:userId/roles/detach', detachRoleFromUser);
+userRoutes.put('/:userId/edit', editUser);
+userRoutes.delete('/:userId', deleteUser);
+userRoutes.get('/:firebaseUid', getUserByFirebaseUid);
 
 export default userRoutes;

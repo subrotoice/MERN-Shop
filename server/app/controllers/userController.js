@@ -49,6 +49,50 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+export const editUser = async (req, res) => {
+  try {
+    const { name, email, phone, address, photoURL } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { name, email, phone, address, photoURL },
+      { new: true, runValidators: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user information", error });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Extract user ID from request parameters
+    const user = await User.findByIdAndDelete(userId); // Delete user by ID
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" }); // Handle user not found case
+    }
+
+    res.status(200).json({ message: "User deleted successfully" }); // Success response
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user", error }); // Error response
+  }
+};
+
+export const getUserByFirebaseUid = async (req, res) => {
+  try {
+    const user = await User.findOne({ firebaseUid: req.params.firebaseUid }).populate("roles");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching user", error });
+  }
+};
+
+
 // get all roles
 export const getRoles = async (req, res) => {
   try {
@@ -95,6 +139,20 @@ export const assignRoleToUser = async (req, res) => {
     res.status(500).json({ message: "Error assigning roles", error });
   }
 };
+
+// detach role
+export const detachRoleFromUser = async (req, res) => {
+  try {
+    const { roleId } = req.body;
+    const user = await User.findById(req.params.userId);
+    user.roles = user.roles.filter((role) => role.toString() !== roleId);
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error detaching role", error });
+  }
+};
+
 
 // check permission method, this will be used in routes
 
