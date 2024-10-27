@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useRoles from "../../hooks/useRoles";
+import { MdDeleteForever } from "react-icons/md";
+import toast from "react-hot-toast";
+
 
 const Roles = () => {
 
@@ -12,7 +15,7 @@ const Roles = () => {
   useEffect(() => {
     setRoles(roleList);
   }, [roleList]);
-  console.log(roles)
+  
   const addNewRole = async() => {
     try {
       const { data, status } = await axios.post(`http://localhost:5000/api/users/roles`, { name: role });
@@ -23,6 +26,26 @@ const Roles = () => {
       console.error("Error creating role", error);
     }
   }
+
+  const handleDelete = async (role) => {
+    const isConfirm = confirm(`Are you sure to delete ${role.name} role ?`);
+    if (isConfirm) {
+      setRoles((prevRoles) =>
+        prevRoles.filter((prevRole) => prevRole._id !== role._id)
+      );
+      toast.error("Role Deleted", {
+        duration: 3000,
+        position: "top-right",
+      });
+      try {
+        await axios.delete(
+          `http://localhost:5000/api/users/roles/${role._id}`
+        );
+      } catch (error) {
+        console.error("Error deleting category:", error);
+      }
+    }
+  };
 
 
   return (
@@ -39,7 +62,7 @@ const Roles = () => {
         <tr>
           <th>Serial</th>
           <th>Name</th>
-          <th>Permissions</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +70,11 @@ const Roles = () => {
           <tr>
             <th>{index+1}</th>
             <td>{role.name}</td>
-            <td></td>
+            <td>
+              <button onClick={() => handleDelete(role)}>
+                <MdDeleteForever className="h-6 w-6 text-red-700" />
+              </button>
+            </td>
           </tr>
         ))}
         

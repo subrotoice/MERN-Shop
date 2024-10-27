@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 import useUsers from "../../hooks/useUsers";
 import useRoles from "../../hooks/useRoles";
 
@@ -20,6 +20,32 @@ const Users = () => {
     setRoles(roleList);
   }, [roleList]);
 
+
+  const assignRole = async (e) => {
+    
+    const { role, user } = JSON.parse(e.target.value);
+
+    const roleId = role._id;
+    const roleName = role.name;
+
+    const userId = user._id; // Assumed user object is available
+    try {
+      const response = await axios.put(`http://localhost:5000/api/users/${userId}/roles`, { roleId: roleId });
+      console.log(response);
+      if (response.status === 200) {
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId
+              ? { ...user, roles: [...user.roles, { name: roleName, _id: roleId }] }
+              : user
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Failed to update user role", error);
+    }
+  }
+
   return (
     <div>
       <div className="overflow-x-auto">
@@ -30,7 +56,7 @@ const Users = () => {
               <th>Name</th>
               <th>Role</th>
               <th>Email</th>
-              <th></th>
+              <th>Pick a role</th>
             </tr>
           </thead>
           <tbody>
@@ -61,28 +87,21 @@ const Users = () => {
               </td>
               <td>{user.email}</td>
               <td>
-              <select className="select w-full max-w-xs">
-                <option disabled selected>Pick a role for this user</option>
-                {roles.map((role)=> (
-                  <option>{role.name}</option>
+              <select
+                className="select select-ghost w-full max-w-xs"
+                onChange={assignRole}
+              >
+                <option disabled selected>Pick a Role</option>
+                {roles.map((role) => (
+                  <option key={role._id} value={JSON.stringify({ role, user })}>{role.name}</option>
                 ))}
-                
               </select>
+
               </td>
             </tr>
             ))}
             
           </tbody>
-          {/* foot */}
-          {/* <tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
-            </tr>
-          </tfoot> */}
         </table>
       </div>
     </div>

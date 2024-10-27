@@ -38,6 +38,6 @@ userRoutes.get("/all", getAllUsers);
 userRoutes.get("/roles", getRoles);
 userRoutes.post("/roles", createRole);
 userRoutes.delete("/roles/:id", deleteRole);
-userRoutes.put('/users/:userId/roles', assignRoleToUser);
+userRoutes.put('/:userId/roles', assignRoleToUser);
 
 export default userRoutes;
