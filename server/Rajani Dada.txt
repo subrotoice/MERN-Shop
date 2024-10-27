@@ -1,0 +1,5 @@
+npm i -g vercel@latest
+vercel
+vercel --prod
+
+Always domain link

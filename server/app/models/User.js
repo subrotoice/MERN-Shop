@@ -22,11 +22,11 @@ const userSchema = new mongoose.Schema({
   address: {
     type: String, // Optional field for user's address
   },
-  profilePic: {
+  photoURL: {
     type: String, // URL to the user's profile picture
     default: "", // Can be empty by default
   },
-  roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
+  roles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Role" }],
   createdAt: {
     type: Date,
     default: Date.now, // Automatically set creation time

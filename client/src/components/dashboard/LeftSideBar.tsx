@@ -3,7 +3,7 @@ import { IconType } from "react-icons"; // Ensure IconType is imported
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { CiHome } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
-import { FaProductHunt } from "react-icons/fa6";
+import { FaFirstOrderAlt, FaProductHunt } from "react-icons/fa6";
 import { GrUserAdmin } from "react-icons/gr";
 import { TbCategoryPlus } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
@@ -23,6 +23,11 @@ const LeftSideBar = () => {
       label: "Category",
       url: "/dashboard/categories",
       icon: TbCategoryPlus,
+    },
+    {
+      label: "Orders",
+      url: "/dashboard/orders",
+      icon: FaFirstOrderAlt,
     },
     {
       label: "Products",
@@ -50,7 +55,7 @@ const LeftSideBar = () => {
         },
         {
           label: "Create Users",
-          url: "#",
+          url: "/dashboard/create-users",
           icon: FaRegUserCircle,
         },
       ],

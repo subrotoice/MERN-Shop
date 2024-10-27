@@ -15,6 +15,7 @@ import AdminProducts from "../pages/dashboard/AdminProducts";
 import DashboardWelcome from "../pages/dashboard/DashboardWelcome";
 import Roles from "../pages/dashboard/Roles";
 import Users from "../pages/dashboard/Users";
+import AdminOrders from "../pages/dashboard/AdminOrders";
 
 const router = createBrowserRouter([
   { path: "/", errorElement: <NotFound />, element: <Home /> },
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
     element: <AdminPage />,
     children: [
       { path: "welcome", element: <DashboardWelcome /> },
+      { path: "orders", element: <AdminOrders /> },
       { path: "users", element: <Users /> },
       { path: "products", element: <AdminProducts /> },
       { path: "categories", element: <AdminCategories /> },

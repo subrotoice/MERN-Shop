@@ -4,7 +4,7 @@ import Role from "../models/Role.js";
 
 // Register or update user after Firebase authentication
 export const registerOrUpdateUser = async (req, res) => {
-  const { displayName, email, uid } = req.body;
+  const { displayName, email, uid, photoURL } = req.body;
   // return res.status(200).json(req.body);
 
   try {
@@ -23,6 +23,7 @@ export const registerOrUpdateUser = async (req, res) => {
         firebaseUid: uid, // Firebase UID from token
         name: displayName,
         email,
+        photoURL,
       });
       await user.save();
       return res
@@ -41,7 +42,7 @@ export const getAllUsers = async (req, res) => {
   // }
 
   try {
-    const users = await User.find().populate('roles');
+    const users = await User.find().populate("roles");
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
@@ -50,7 +51,6 @@ export const getAllUsers = async (req, res) => {
 
 // get all roles
 export const getRoles = async (req, res) => {
-
   try {
     const roles = await Role.find();
     res.status(200).json(roles);
@@ -58,7 +58,6 @@ export const getRoles = async (req, res) => {
     res.status(500).json({ message: "Error fetching roles", error });
   }
 };
-
 
 //create role
 export const createRole = async (req, res) => {
@@ -95,7 +94,6 @@ export const assignRoleToUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error assigning roles", error });
   }
-  
 };
 
 // check permission method, this will be used in routes

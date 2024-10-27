@@ -1,13 +1,46 @@
+import { BiLocationPlus } from "react-icons/bi";
+import { FaHeartCircleCheck } from "react-icons/fa6";
 import { useLoaderData } from "react-router-dom";
-import { Product } from "../components/ProductsComponent";
+import { Rating } from "react-simple-star-rating";
 import productDefaultImage from "../assets/default-product-image.jpg";
+import { Product } from "../components/ProductsComponent";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const ProductDetails = () => {
-  const { name, description, imageUrl, category, price, rating } =
+  const { _id, name, description, imageUrl, category, price, rating } =
     useLoaderData() as Product;
-  console.log(name, description, imageUrl, category, price, rating);
-  // return;
+  const { user } = useAuth(); // Firebase user info
 
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isOrderModalOpen, setOrderModalOpen] = useState(false);
+
+  const handleOrder = async () => {
+    if (!user) {
+      console.error("User not logged in");
+      return;
+    }
+
+    try {
+      const orderData = {
+        user: user.uid, // Firebase UID
+        products: [{ product: _id, quantity: 1 }],
+        shippingAddress,
+        phoneNumber,
+        totalPrice: price,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/api/orders",
+        orderData
+      );
+      console.log("Order created:", response.data);
+      setOrderModalOpen(false); // Close modal after order creation
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
+  };
   return (
     <div>
       <section className="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
@@ -26,70 +59,45 @@ const ProductDetails = () => {
               />
             </div>
             <div className="mt-6 sm:mt-8 lg:mt-0">
+              <div className="badge badge-success gap-2 bg-green-200">
+                In Stock
+              </div>
               <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
                 {name}
               </h1>
+              <div className="flex gap-2 align-middle">
+                <Rating
+                  allowFraction
+                  initialValue={rating || 0.0}
+                  readonly
+                  SVGstyle={{ display: "inline" }}
+                  size={20}
+                />{" "}
+                ({rating || 0.0})<span className="underline">345 Reviews</span>
+                <span className="text-blue-600 flex items-center h-8">
+                  <BiLocationPlus /> Meherpur Sadar, Meherpur 23647
+                </span>
+              </div>
               <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
                 <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
                   ${price}
                 </p>
-                <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                  <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
-                    ({rating || 0.0})
-                  </p>
-                  <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
-                    ({category && category.name})
-                  </p>
-                </div>
               </div>
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                 <a
                   href="#"
-                  className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  className="flex gap-2 items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                   role="button"
                 >
-                  <svg
-                    className="w-5 h-5 -ms-2 me-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={24}
-                    height={24}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                    />
-                  </svg>
+                  <FaHeartCircleCheck className="h-6 w-6 text-red-400" />
                   Add to favorites
                 </a>
                 <a
                   href="#"
-                  className="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
+                  className="text-white mt-4 sm:mt-0 gap-2 bg-blue-600 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
                   role="button"
                 >
-                  <svg
-                    className="w-5 h-5 -ms-2 me-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={24}
-                    height={24}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
-                    />
-                  </svg>
-                  Add to cart
+                  Buy Now
                 </a>
               </div>
               <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
@@ -101,6 +109,50 @@ const ProductDetails = () => {
           </div>
         </div>
       </section>
+      {isOrderModalOpen && (
+        <dialog open className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">Complete Your Order</h3>
+            <p>
+              <strong>Product:</strong> {product.name}
+            </p>
+            <p>
+              <strong>User:</strong> {user.displayName}
+            </p>
+
+            <div className="form-control mb-4">
+              <label className="label">Shipping Address</label>
+              <input
+                type="text"
+                value={shippingAddress}
+                onChange={(e) => setShippingAddress(e.target.value)}
+                className="input input-bordered"
+                placeholder="Enter shipping address"
+              />
+            </div>
+
+            <div className="form-control mb-4">
+              <label className="label">Phone Number</label>
+              <input
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="input input-bordered"
+                placeholder="Enter phone number"
+              />
+            </div>
+
+            <div className="modal-action">
+              <button onClick={handleOrder} className="btn btn-primary">
+                Submit Order
+              </button>
+              <button onClick={() => setOrderModalOpen(false)} className="btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}{" "}
     </div>
   );
 };

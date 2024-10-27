@@ -13,6 +13,7 @@ const categorySchema = new mongoose.Schema({
   icon: {
     type: String,
     required: false,
+    default: "FaMobileScreen",
   },
   createdAt: {
     type: Date,
