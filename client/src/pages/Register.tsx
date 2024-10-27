@@ -1,12 +1,12 @@
 import { FieldValues, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import sendUserDataToBackend from "../services/sendUserDataToBackend";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
   const { signUp, updateProfileWithEmail, auth } = useAuth(); // Access the user and login function
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handelSignUp = async ({
     name,
@@ -24,15 +24,12 @@ const Register = () => {
         photoURL: photo,
       });
 
-      console.log("User registered successfully:", user);
+      // console.log("User registered successfully:", user);
       // console.log("Updated:", updatedUser);
-      const responseFromExpress = await sendUserDataToBackend(
-        userCredential,
-        auth
-      );
+      await sendUserDataToBackend(userCredential, auth);
       // console.log(userCreditinal);
-      console.log(responseFromExpress);
-      // navigate("/");
+      // console.log(responseFromExpress);
+      navigate("/");
     } catch (err) {
       console.error("Error registering user:", err);
     }

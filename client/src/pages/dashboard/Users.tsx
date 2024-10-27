@@ -1,46 +1,62 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import useUsers from "../../hooks/useUsers";
+import { ChangeEvent, useEffect, useState } from "react";
+import { FaRegUser } from "react-icons/fa6";
 import useRoles from "../../hooks/useRoles";
+import useUsers from "../../hooks/useUsers";
+
+// Define interfaces for User and Role
+interface Role {
+  _id: string;
+  name: string;
+}
+
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  photoURL: string;
+  roles: Role[];
+}
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
 
-  const userList = useUsers();
-  const roleList = useRoles();
+  const userList = useUsers(); // Assuming it returns User[]
+  const roleList = useRoles(); // Assuming it returns Role[]
 
   useEffect(() => {
     setUsers(userList);
   }, [userList]);
-  console.log(userList);
 
   useEffect(() => {
     setRoles(roleList);
   }, [roleList]);
 
-  const assignRole = async (e) => {
-    const { role, user } = JSON.parse(e.target.value);
+  const assignRole = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const { role, user }: { role: Role; user: User } = JSON.parse(
+      e.target.value
+    );
 
     const roleId = role._id;
     const roleName = role.name;
+    const userId = user._id;
 
-    const userId = user._id; // Assumed user object is available
     try {
       const response = await axios.put(
         `http://localhost:5000/api/users/${userId}/roles`,
-        { roleId: roleId }
+        {
+          roleId,
+        }
       );
       console.log(response);
+
       if (response.status === 200) {
         setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user._id === userId
-              ? {
-                  ...user,
-                  roles: [...user.roles, { name: roleName, _id: roleId }],
-                }
-              : user
+          prevUsers.map((u) =>
+            u._id === userId
+              ? { ...u, roles: [...u.roles, { name: roleName, _id: roleId }] }
+              : u
           )
         );
       }
@@ -52,8 +68,8 @@ const Users = () => {
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="table">
-          {/* head */}
+        <table className="table w-full">
+          {/* Head */}
           <thead>
             <tr>
               <th>Name</th>
@@ -64,15 +80,19 @@ const Users = () => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr>
+              <tr key={user._id}>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src={user.photoURL}
-                          alt="Avatar Tailwind CSS Component"
-                        />
+                        {user.photoURL ? (
+                          <img
+                            src={user.photoURL}
+                            alt={`${user.name}'s avatar`}
+                          />
+                        ) : (
+                          <FaRegUser className="w-10 h-10" />
+                        )}
                       </div>
                     </div>
                     <div>
@@ -83,9 +103,8 @@ const Users = () => {
                 </td>
                 <td>
                   {user.roles.map((role) => (
-                    <div>{role.name}</div>
+                    <div key={role._id}>{role.name}</div>
                   ))}
-                  <div></div>
                 </td>
                 <td>{user.email}</td>
                 <td>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import LoginOrLogout from "./LoginOrLogout";
 import NavLinks from "./NavLinks";
+import MernShopLogo from "../assets/MERN_Shop_Logo.png";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
@@ -16,12 +17,12 @@ const Navbar = () => {
               <a href="#" title="" className="">
                 <img
                   className="block w-auto h-8 dark:hidden"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/logo-full.svg"
+                  src={MernShopLogo}
                   alt=""
                 />
                 <img
                   className="hidden w-auto h-8 dark:block"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/logo-full-dark.svg"
+                  src={MernShopLogo}
                   alt=""
                 />
               </a>

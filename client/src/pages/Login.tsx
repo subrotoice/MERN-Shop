@@ -18,13 +18,10 @@ const Login = () => {
     // console.log(email, password);
     try {
       const userCredential = await loginWithEmail(email, password); // Handle Firebase login
-      const responseFromExpress = await sendUserDataToBackend(
-        userCredential,
-        auth
-      );
+      await sendUserDataToBackend(userCredential, auth);
       // console.log(userCreditinal);
-      console.log(responseFromExpress);
-      // navigate(location.state ? location.state : "/"); // Redirect to homepage after successful login
+      // console.log(responseFromExpress);
+      navigate(location.state ? location.state : "/"); // Redirect to homepage after successful login
       toast.success("Login successful!"); // Show success notification
     } catch (error) {
       console.error("Login error:", error);

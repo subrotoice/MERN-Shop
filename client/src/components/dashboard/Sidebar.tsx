@@ -7,13 +7,15 @@ import {
   BiUser,
 } from "react-icons/bi";
 
+type SubmenuKey = "settings" | "users";
+
 const Sidebar = () => {
-  const [openSubmenu, setOpenSubmenu] = useState({
+  const [openSubmenu, setOpenSubmenu] = useState<Record<SubmenuKey, boolean>>({
     settings: false,
     users: false,
   });
 
-  const toggleSubmenu = (menu) => {
+  const toggleSubmenu = (menu: SubmenuKey) => {
     setOpenSubmenu((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
 
@@ -30,15 +32,15 @@ const Sidebar = () => {
 
         {/* Users Menu */}
         <li>
-          <a
+          <button
             onClick={() => toggleSubmenu("users")}
-            className="flex justify-between cursor-pointer"
+            className="flex justify-between cursor-pointer w-full text-left"
           >
             <span className="flex items-center">
               <BiUser className="text-xl mr-2" /> Users
             </span>
             {openSubmenu.users ? <BiChevronUp /> : <BiChevronDown />}
-          </a>
+          </button>
           {openSubmenu.users && (
             <ul className="ml-6 mt-2">
               <li>
@@ -57,15 +59,15 @@ const Sidebar = () => {
 
         {/* Settings Menu */}
         <li>
-          <a
+          <button
             onClick={() => toggleSubmenu("settings")}
-            className="flex justify-between cursor-pointer"
+            className="flex justify-between cursor-pointer w-full text-left"
           >
             <span className="flex items-center">
               <BiCog className="text-xl mr-2" /> Settings
             </span>
             {openSubmenu.settings ? <BiChevronUp /> : <BiChevronDown />}
-          </a>
+          </button>
           {openSubmenu.settings && (
             <ul className="ml-6 mt-2">
               <li>
