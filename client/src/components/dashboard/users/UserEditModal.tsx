@@ -1,13 +1,43 @@
-import React from "react"
+import React, { FC, ChangeEvent } from "react";
 
-const UserEditModal = ({
+interface User {
+  _id: string;
+  firebaseUid: string;
+  name: string;
+  email: string;
+  profilePic: string;
+  createdAt: string;
+  roles: string[];
+  photoURL?: string;
+  address?: string;
+  phone?: string;
+}
+
+interface UserEditModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  onUpdate: () => void;
+}
+
+const UserEditModal: FC<UserEditModalProps> = ({
   isOpen,
   onClose,
   user,
   setUser,
   onUpdate
 }) => {
-  if (!isOpen) return null
+  if (!isOpen) return null;
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: keyof User
+  ) => {
+    setUser(prev =>
+      prev ? { ...prev, [field]: e.target.value } : null
+    );
+  };
 
   return (
     <dialog id="edit_product_modal" className="modal modal-open">
@@ -18,11 +48,7 @@ const UserEditModal = ({
           <input
             type="text"
             value={user.name}
-            onChange={e =>
-              setUser(prev =>
-                prev ? { ...prev, name: e.target.value } : null
-              )
-            }
+            onChange={e => handleInputChange(e, "name")}
             className="input input-bordered"
           />
         </div>
@@ -40,13 +66,9 @@ const UserEditModal = ({
         <div className="form-control mb-4">
           <label className="label">Phone</label>
           <input
-            type="number"
-            value={user.phone}
-            onChange={e =>
-                setUser(prev =>
-                  prev ? { ...prev, phone: e.target.value } : null
-                )
-              }
+            type="tel"
+            value={user.phone || ""}
+            onChange={e => handleInputChange(e, "phone")}
             className="input input-bordered"
           />
         </div>
@@ -54,12 +76,8 @@ const UserEditModal = ({
         <div className="form-control mb-4">
           <label className="label">Address</label>
           <textarea
-            value={user.address}
-            onChange={(e) =>
-                setUser((prev) =>
-                prev ? { ...prev, address: e.target.value } : null
-              )
-            }
+            value={user.address || ""}
+            onChange={e => handleInputChange(e, "address")}
             className="textarea textarea-bordered"
           />
         </div>
@@ -68,12 +86,8 @@ const UserEditModal = ({
           <label className="label">Photo URL</label>
           <input
             type="text"
-            value={user.photoURL}
-            onChange={(e) =>
-                setUser((prev) =>
-                prev ? { ...prev, photoURL: e.target.value } : null
-              )
-            }
+            value={user.photoURL || ""}
+            onChange={e => handleInputChange(e, "photoURL")}
             className="input input-bordered"
           />
         </div>
@@ -88,7 +102,7 @@ const UserEditModal = ({
         </div>
       </div>
     </dialog>
-  )
-}
+  );
+};
 
-export default UserEditModal
+export default UserEditModal;
