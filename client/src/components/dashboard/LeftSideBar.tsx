@@ -31,35 +31,13 @@ const LeftSideBar = () => {
     },
     {
       label: "Products",
-      submenu: [
-        {
-          label: "All Products",
-          url: "/dashboard/products",
-          icon: FaProductHunt,
-        },
-        {
-          label: "Create Products",
-          url: "/dashboard/create-product",
-          icon: FaProductHunt,
-        },
-      ],
+      url: "/dashboard/products",
       icon: FaProductHunt,
     },
     {
       label: "Users",
-      submenu: [
-        {
-          label: "All Users",
-          url: "/dashboard/users",
-          icon: FaRegUserCircle,
-        },
-        {
-          label: "Create Users",
-          url: "/dashboard/create-users",
-          icon: FaRegUserCircle,
-        },
-      ],
-      icon: FaRegUserCircle,
+      url: "/dashboard/users",
+      icon: FaRegUserCircle
     },
     {
       label: "Role",

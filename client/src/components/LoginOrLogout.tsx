@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const LoginOrLogout = () => {
@@ -44,6 +44,16 @@ const LoginOrLogout = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-1 w-52 p-2 shadow"
             >
               <li className="p-2 font-bold">{user.displayName}</li>
+              
+                <li className="shrink-0">
+                  <NavLink
+                    className="hover:text-primary-700 dark:hover:text-primary-500"
+                    to="dashboard/welcome"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li> 
+              
               <li>
                 <button
                   onClick={handelLogout}

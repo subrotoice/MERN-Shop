@@ -6,12 +6,12 @@ export interface MenuItem {
 }
 
 const NavLinks = () => {
+   
   const menuItems: MenuItem[] = [
     { label: "Home", url: "/" },
     { label: "Products", url: "/products" },
     { label: "Gift Ideas", url: "/#" },
-    { label: "Today's Deals", url: "/#" },
-    { label: "Sell", url: "/#" },
+    { label: "Today's Deals", url: "/#" }
   ];
   return (
     <>
@@ -25,6 +25,7 @@ const NavLinks = () => {
           </NavLink>
         </li>
       ))}
+      
     </>
   );
 };
